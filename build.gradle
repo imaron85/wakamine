@@ -16,13 +16,17 @@ repositories {
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
+	jcenter()
+	maven { url = "https://jitpack.io/" }
+	maven { url = "https://maven.terraformersmc.com" }
+	maven { url "https://maven.shedaniel.me/" }
 }
 
 loom {
 	// Loom and Loader both use this block in order to gather more information about your mod.
 	mods {
 		// This should match your mod id.
-		"example_mod" {
+		"wakamine" {
 			// Tell Loom about each source set used by your mod here. This ensures that your mod's classes are properly transformed by Loader.
 			sourceSet("main")
 			// If you shade (directly include classes, not JiJ) a dependency into your mod, include it here using one of these methods:
@@ -50,6 +54,13 @@ dependencies {
 	// Quilted Fabric API will automatically pull in the correct QSL version.
 	modImplementation libs.quilted.fabric.api
 	// modImplementation libs.bundles.quilted.fabric.api // If you wish to use Fabric API's deprecated modules, you can replace the above line with this one
+
+	modImplementation "com.terraformersmc:modmenu:7.2.2"
+	include (implementation "org.json:json:20230618")
+
+	modApi("me.shedaniel.cloth:cloth-config-fabric:11.1.118") {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
 }
 
 processResources {

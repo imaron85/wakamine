@@ -1,0 +1,9 @@
+{
+  "text.autoconfig.wakamine.title": "WakaMine",
+  "text.autoconfig.wakamine.option.api_token.@PrefixText": "Please enter your Wakatime API-Key to enable syncing:",
+  "text.autoconfig.wakamine.option.api_token": "Wakatime API-Key",
+  "single_state": "Singleplayer",
+  "multi_state": "Multiplayer",
+  "realm_state": "Realms",
+  "main_state": "Idling"
+}
