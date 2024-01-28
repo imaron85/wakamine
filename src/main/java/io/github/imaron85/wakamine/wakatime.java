@@ -9,6 +9,7 @@ import java.net.UnknownHostException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -38,20 +39,23 @@ public class wakatime {
 			return;
 		}
 
+		String body = "{\n" +
+			"    \"entity\": \"Minecraft - " + state + "\",\n" +
+			"    \"type\": \"app\",\n" +
+			"    \"category\": \"building\",\n" +
+			"    \"time\": \"1706453970\",\n" +
+			"    \"language\": \"Minecraft\",\n" +
+			"    \"plugin\": \"minecraft/1.20.1 wakamine/1.0.0\"\n" +
+			"    \"hostname\": \"" +  hostname + "\"\n" +
+			"    \"os\": \"" +  System.getProperty("os.name") + "\"\n" +
+			"    \"editor\": \"minecraft\"\n" +
+			"}";
+
 		HttpRequest request = HttpRequest.newBuilder()
 			.uri(URI.create("https://api.wakatime.com/api/v1/users/current/heartbeats"))
-			.POST(HttpRequest.BodyPublishers.ofString(
-				"{\n" +
-					"    \"entity\": \"Minecraft - " + state + "\",\n" +
-					"    \"type\": \"app\",\n" +
-					"    \"category\": \"building\",\n" +
-					"    \"time\": \"1706453970\",\n" +
-					"    \"language\": \"Minecraft\",\n" +
-					"    \"plugin\": \"minecraft/1.20.1 wakamine/1.0.0\"\n" +
-					"    \"hostname\": \"" +  hostname + "\"\n" +
-					"}"
-			))
+			.POST(HttpRequest.BodyPublishers.ofString(body))
 			.header("Authorization", "Basic " + config.INSTANCE.api_token)
+			.header("Content-Type", "application/json")
 			.build();
 		try {
 			CompletableFuture<HttpResponse<String>> promise = client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
