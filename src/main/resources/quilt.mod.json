@@ -33,6 +33,10 @@
 				"versions": ">=7.0.2"
 			},
 			{
+				"id": "cloth-config",
+				"versions": ">=11.1.118"
+			},
+			{
 				"id": "minecraft",
 				"versions": ">=1.20"
 			}
