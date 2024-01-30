@@ -12,9 +12,9 @@
 				"ImAron85": "Creator"
 			},
 			"contact": {
-				"homepage": "https://example.com/",
-				"issues": "https://github.com/QuiltMC/quilt-template-mod/issues",
-				"sources": "https://github.com/QuiltMC/quilt-template-mod"
+				"homepage": "https://modrinth.com/mod/wakamine",
+				"issues": "https://github.com/imaron85/wakamine/issues",
+				"sources": "https://github.com/imaron85/wakamine"
 			},
 			"icon": "assets/wakamine/icon.png"
 		},
