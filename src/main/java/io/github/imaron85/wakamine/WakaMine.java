@@ -1,7 +1,9 @@
 package io.github.imaron85.wakamine;
 
 import io.github.imaron85.wakamine.config.ReloadListener;
+import io.github.imaron85.wakamine.wakatime.WakaTime;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
+import org.quiltmc.qsl.lifecycle.api.client.event.ClientLifecycleEvents;
 import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
@@ -16,6 +18,7 @@ public class WakaMine implements ModInitializer {
 	// It is considered best practice to use your mod name as the logger's name.
 	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger("WakaMine");
+
 	private static String state = "";
 
 	private static long lastCalled = 0;
@@ -24,6 +27,14 @@ public class WakaMine implements ModInitializer {
 	public void onInitialize(ModContainer mod) {
 		ReloadListener reloadListener = new ReloadListener();
 		ResourceLoader.get(ResourceType.CLIENT_RESOURCES).registerReloader(reloadListener);
+
+		ClientLifecycleEvents.READY.register((client) -> {
+			WakaTime.initComponent(client.getGameVersion());
+		});
+
+		ClientLifecycleEvents.STOPPING.register((client) -> {
+			WakaTime.disposeComponent();
+		});
 
 		ClientTickEvents.END.register((client) -> {
 			state = "Idling";
@@ -37,14 +48,14 @@ public class WakaMine implements ModInitializer {
 			}
 
 			if(lastCalledWithState == state) {
-				//timeout for 2 minutes if recalling with same values
-				if(System.currentTimeMillis() - lastCalled <= 120000)
+				//timeout for 30 seconds minutes if recalling with same values
+				if(System.currentTimeMillis() - lastCalled <= 30000)
 					return;
 			}
 
 			lastCalledWithState = state;
 			lastCalled = System.currentTimeMillis();
-			wakatime.sendHeartbeatAsync(state);
+			WakaTime.appendHeartbeat(state);
 		});
 	}
 }
